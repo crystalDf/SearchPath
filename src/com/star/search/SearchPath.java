@@ -18,29 +18,30 @@ public class SearchPath {
 
     public static void main(String[] args){
         for (int i = 0; i < ROW; i++) {
-            if (SWAMP[i][0] == '*') {
-                System.out.println("Start at Row " + i + " " + searchPath(i, 0, " " + i));
-            } else {
-                System.out.println("Start at Row " + i + " " + NO_PATH_EXISTS);
+            System.out.println("Start at Row " + i + " ");
+            if (SWAMP[i][0] != '*' || !searchPath(i, 0, " " + i)) {
+                System.out.println(NO_PATH_EXISTS);
             }
         }
     }
 
-    public static String searchPath(int currentRow, int currentColumn, String path) {
+    public static boolean searchPath(int currentRow, int currentColumn, String path) {
+
+        boolean findPath = false;
 
         if (currentColumn == COLUMN - 1) {
-            return PATH + path;
+            System.out.println(PATH + path);
+            return true;
         }
 
         for (int i = currentRow - 1; i <= currentRow + 1; i++) {
             if ((i >= 0) && (i < ROW) && SWAMP[i][currentColumn + 1] == '*') {
-                String pathResult = searchPath(i, currentColumn + 1, path + " " + i);
-                if (!pathResult.equals(NO_PATH_EXISTS)) {
-                    return pathResult;
+                if (searchPath(i, currentColumn + 1, path + " " + i)) {
+                    findPath = true;
                 }
             }
         }
 
-        return NO_PATH_EXISTS;
+        return findPath;
     }
 }
